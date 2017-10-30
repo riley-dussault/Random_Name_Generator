@@ -1,0 +1,89 @@
+import random
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
+from sqlalchemy.sql import text
+
+engine = create_engine('sqlite:///mydb.db', echo=True)
+
+def main():
+
+	conn = engine.connect()
+	metadata = MetaData()
+	createTables(metadata, conn)
+	s = text("SELECT users.fullname AS title FROM users")
+	statement = text("INSERT INTO users (name, fullname) values ('hal', 'Halsted Matthew Larsson')")
+	conn.execute(statement)
+
+	query = test("Select * from users")
+	result = conn.execute(query).fetchall()
+	print(result)
+
+def createTables(metadata, conn):
+ 	names = Table('names', metadata,
+	Column('id', Integer, primary_key=True),
+	Column('Firstnamesmale', String),
+    Column('Middlenamesmale', String),
+    Column('Firstnamesfemale', string),
+    Column('Middlenamesfemale', string),
+    Column('Lastnames', String))
+
+inputquestions = [
+"FOR RANDOM FEMALE NAMES - PRESS 0",
+"FOR RANDOM MALE NAMES - PRESS 1",
+"RANDOM FIRST AND LAST NAME - PRESS 2",
+"RANDOM FIRST, MIDDLE AND LAST NAME - PRESS 3",
+"TO END PROGRAM - PRESS 9",
+]
+
+def printHeader():
+	print ("RANDOM NAME GENERATOR")
+
+def getuserselection1():
+	for inputquestion in inputquestions:
+		print ("                      ")
+		print (inputquestions[0])
+		print (inputquestions[1])
+		print ("                      ")
+		return int(input("ENTER SELECTION HERE: "))
+
+def getuserselection2():
+	for inputquestion in inputquestions:
+		print ("                     ")
+		print (inputquestions[2])
+		print (inputquestions[3])
+		print (inputquestions[4])
+		print ("                     ")
+		return int(input("ENTER SELECTION HERE: "))
+
+def generatefirstname(firstnamesmale):
+	print (random.choice(firstnamesmale), end=' ')
+
+def generatelastname(lastnames):
+	print (random.choice(lastnames), end='')
+
+def generatemiddlename(middlenamesmale):
+	print (random.choice(middlenamesmale), end=' ')
+
+printHeader()
+while True:
+	selection = getuserselection1()
+	if selection == 2:
+		print ("                     ")
+		generatefirstname(firstnamesmale)
+		generatelastname(lastnames)
+		print ("                     ")
+	elif selection == 3:
+		print ("                     ")
+		generatefirstname(firstnamesmale)
+		generatemiddlename(middlenamesmale)
+		generatelastname(lastnames)
+		print ("                     ")
+	elif selection == 9:
+		print ("TERMINATING COMMAND")
+		break
+	else:
+		print("INPUT NOT RECOGNIZED")
+
+
+main()
